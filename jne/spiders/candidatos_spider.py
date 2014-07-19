@@ -27,15 +27,54 @@ class CandidatosSpider(Spider):
            yield Request(url, callback=self.parse_page)
 
     def parse_page(self, response):
+        items=[]
+
         self.driver.get(response.url)
         
         time.sleep(5)
 
         candidatoItem = CandidatoItem()
 
-        cargo_postula = self.driver.find_element_by_xpath('//span[@id="txtCargoPostula"]').text
+        content = self.driver.find_element_by_xpath('//span[@id="txtCargoPostula"]')
+        candidatoItem['cargo_postula'] = content.text
 
-        candidatoItem['cargo_postula'] = cargo_postula
+        content = self.driver.find_element_by_xpath('//span[@id="txtLugarPostula"]')
+        candidatoItem['lugar_postula'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtDNI"]')
+        candidatoItem['dni'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtApellidoPaterno"]')
+        candidatoItem['apellido_paterno'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtApellidoMaterno"]')
+        candidatoItem['apellido_materno'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtNombres"]')
+        candidatoItem['nombres'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtFechaNacimiento"]')
+        candidatoItem['fecha_nacimiento'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtCorreoElectronico"]')
+        candidatoItem['correo_electronico'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtLugarResicencia"]')
+        candidatoItem['lugar_residencia'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtLugarDepartamentoRes"]')
+        candidatoItem['lugar_departamento_residencia'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtLugarProvinciaRes"]')
+        candidatoItem['lugar_provincia_residencia'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtLugarDistritoRes"]')
+        candidatoItem['lugar_distrito_residencia'] = content.text
+         
+        content = self.driver.find_element_by_xpath('//span[@id="txtTiempoRes"]')
+        candidatoItem['lugar_tiempo_residencia'] = content.text
+
+        items.append(candidatoItem)
 
         return candidatoItem
 
