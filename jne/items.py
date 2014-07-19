@@ -22,7 +22,7 @@ class CandidatoItem(Item):
     lugar_distrito_residencia=Field()
     lugar_tiempo_residencia=Field()
 
-class ExperienciaItem(Item):
+class ExperienciaLaboralItem(Item):
     centro_de_trabajo=Field()
     sector=Field()
     fecha_desde=Field()

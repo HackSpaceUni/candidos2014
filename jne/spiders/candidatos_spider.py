@@ -21,7 +21,7 @@ class CandidatosSpider(Spider):
 
     def parse(self, response):
         base_url = response.url
-        paginas = range(1,10)
+        paginas = range(104272,104273)
         for pagina in paginas:
            url = '%sc=%s&p=72&op=140' % (base_url, pagina)
            yield Request(url, callback=self.parse_page)
@@ -75,7 +75,11 @@ class CandidatosSpider(Spider):
         candidatoItem['lugar_tiempo_residencia'] = content.text
 
         items.append(candidatoItem)
+        
+        content = self.driver.find_element_by_xpath('//*[@id="tblExperiencia"]')
+        for tr_e_l in content.find_elements_by_css_selector('tr'):
+            print tr_e_l.text
 
-        return candidatoItem
+        return items
 
 
