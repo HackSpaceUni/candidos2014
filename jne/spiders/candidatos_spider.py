@@ -21,7 +21,7 @@ class CandidatosSpider(Spider):
 
     def parse(self, response):
         base_url = response.url
-        paginas = range(1,100)
+        paginas = range(1,10)
         for pagina in paginas:
            url = '%sc=%s&p=72&op=140' % (base_url, pagina)
            yield Request(url, callback=self.parse_page)
