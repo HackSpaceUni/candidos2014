@@ -9,7 +9,7 @@ from scrapy.http import Request
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
-from jne.items import CandidatoItem
+from jne.items import CandidatoItem, ExperienciaLaboralItem
 
 class CandidatosSpider(Spider):
     name = 'candidatos'
@@ -31,7 +31,7 @@ class CandidatosSpider(Spider):
 
         self.driver.get(response.url)
         
-        time.sleep(5)
+        time.sleep(3)
 
         candidatoItem = CandidatoItem()
 
@@ -76,9 +76,28 @@ class CandidatosSpider(Spider):
 
         items.append(candidatoItem)
         
-        content = self.driver.find_element_by_xpath('//*[@id="tblExperiencia"]')
-        for tr_e_l in content.find_elements_by_css_selector('tr'):
-            print tr_e_l.text
+        el = self.driver.find_element_by_xpath('//*[@id="tblExperiencia"]')
+        num_filas_experiencia =  len(el.find_elements_by_xpath('.//tbody/tr'))        
+        if (num_filas_experiencia > 1):
+            num_items_experiencia = (num_filas_experiencia + 1)/4
+            for item_experiencia in range(0, num_items_experiencia):
+                experienciaLaboralItem = ExperienciaLaboralItem()
+
+                content = el.find_element_by_xpath('.//tbody/tr['+str(4*item_experiencia+1)+']/td[1]')
+                experienciaLaboralItem['centro_de_trabajo'] = content.text
+                content = el.find_element_by_xpath('.//tbody/tr['+str(4*item_experiencia+1)+']/td[2]')
+                experienciaLaboralItem['sector'] = content.text
+                content = el.find_element_by_xpath('.//tbody/tr['+str(4*item_experiencia+2)+']/td[1]')
+                experienciaLaboralItem['fecha_desde'] = content.text
+                content = el.find_element_by_xpath('.//tbody/tr['+str(4*item_experiencia+2)+']/td[2]')
+                experienciaLaboralItem['fecha_hasta'] = content.text
+                content = el.find_element_by_xpath('.//tbody/tr['+str(4*item_experiencia+3)+']/td[1]')
+                experienciaLaboralItem['cargo'] = content.text
+                content = el.find_element_by_xpath('.//tbody/tr['+str(4*item_experiencia+3)+']/td[2]')
+                experienciaLaboralItem['ubicacion'] = content.text
+
+                items.append(experienciaLaboralItem)
+    
 
         return items
 
