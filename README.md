@@ -1,13 +1,17 @@
 ARCHIVOS MODIFICADOS
 ===================
 jne/items.py
+
 jne/pipelines.py
+
 jne/settings.py
+
 jne/spider/candidatos_spider.py
 
 ARCHIVOS DE SALIDA
 ==================
 jne/output/candidato.csv
+
 jne/output/experiencia_laboral.csv
 
 
